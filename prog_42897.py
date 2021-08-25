@@ -12,19 +12,16 @@ def solution(money):
 
     # 1번 케이스
     dp0[0] = money[0]
-    dp0[1] = dp0[0] # 0번이 선택되면, 1번과 마지막은 선택할 수 없으므로 0번 값으로 대체
 
     # 1, 2번 케이스를 두 번 돌리면 비효율적이니 한번에
-    for i in range(2, len(money)-1):
+    for i in range(1, len(money)-1):
         dp0[i] = max(dp0[i-1], dp0[i-2]+money[i])
         dp1[i] = max(dp1[i-1], dp1[i-2]+money[i])
 
     # 2번 케이스는 끝까지 확인해야하므로 마지막 값 탐색
-    last = len(money)-1
-    dp1[last] = max(dp1[last-1], dp1[last-2]+money[last])
+    dp1[-1] = max(dp1[-2], dp1[-3]+money[-1])
 
-    answer = max(dp0[last-1], dp1[last])
-
+    answer = max(dp0[-2], dp1[-1])
     return answer
 
 if __name__ == "__main__":
