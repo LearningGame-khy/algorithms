@@ -1,13 +1,12 @@
 ### 위클리 챌린지 > 4주차
 def solution(table, languages, preference):
-    job_names = []
     table_score = []
     for job_info in table:
         job_name, *job_language = job_info.split(' ')
-        job_names.append(job_name)
 
         score = []
         for idx, language in enumerate(languages):
+            # 직업 언어 선호도 점수화
             if language in job_language:
                 score.append((5 - job_language.index(language)) * preference[idx])
             else:
@@ -15,6 +14,7 @@ def solution(table, languages, preference):
 
         table_score.append([sum(score), job_name])
 
+    # 점수순으로 내림차순, 이름 사전순으로 오름차순 정렬
     table_score = sorted(table_score, key=lambda x: (-x[0], x[1]))
     return table_score[0][1]
 
