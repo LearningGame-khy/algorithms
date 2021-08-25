@@ -36,7 +36,8 @@ def solution(col, row, puddles):
                 b = route_score[y][x-1] if not is_water(x-1, y, route_score) else 0
                 route_score[y][x] = a+b
 
-    return route_score[-1][-1]
+    # 최단 경로 개수 % 1,000,000,007 개수를 구해야하므로 수식 추가
+    return route_score[-1][-1] % 1000000007
 
 if __name__ == '__main__':
     m, n, puddles = 4, 3, [[2, 2]]
