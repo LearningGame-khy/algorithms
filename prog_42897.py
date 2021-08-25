@@ -1,5 +1,30 @@
+### 코딩테스트 연습 > 동적계획법 > 도둑질
+# 인접한 집들은 방범장치로 연결되어 있으므로, 인접한 두 집을 털면 경보가 울림
+# 도둑이 훔칠 수 있는 돈의 최대값은 ?
+# 집은 3 <= 집수 <= 1,000,000
+# 돈은 0 <= 돈 <= 1,000
 def solution(money):
-    answer = 0
+    # 1. 0번 집을 터는 경우, 마지막 집은 털지못함 => range(2, len(money)-1)
+    # 2. 0번 집을 안터는 경우, 마지막 집은 경우에 따라 텀 => range(2, len(money))
+    # 2가지에 대한 값을 구해야함
+    dp0 = [0 for _ in range(len(money))]
+    dp1 = [0 for _ in range(len(money))]
+
+    # 1번 케이스
+    dp0[0] = money[0]
+    dp0[1] = dp0[0] # 0번이 선택되면, 1번과 마지막은 선택할 수 없으므로 0번 값으로 대체
+
+    # 1, 2번 케이스를 두 번 돌리면 비효율적이니 한번에
+    for i in range(2, len(money)-1):
+        dp0[i] = max(dp0[i-1], dp0[i-2]+money[i])
+        dp1[i] = max(dp1[i-1], dp1[i-2]+money[i])
+
+    # 2번 케이스는 끝까지 확인해야하므로 마지막 값 탐색
+    last = len(money)-1
+    dp1[last] = max(dp1[last-1], dp1[last-2]+money[last])
+
+    answer = max(dp0[last-1], dp1[last])
+
     return answer
 
 if __name__ == "__main__":
