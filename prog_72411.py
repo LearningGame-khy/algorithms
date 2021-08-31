@@ -8,8 +8,8 @@ def solution(orders, course):
     answer = []
     temp = []
 
-    orders = sorted(orders)
     for order in orders:
+        order = sorted(order)
         order = list(order)
         for course_cnt in course:
             for menu in combinations(order, course_cnt):
