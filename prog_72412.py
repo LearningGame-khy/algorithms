@@ -1,29 +1,54 @@
-def is_passed(person_info, q):
-    for idx in range(len(person_info)-1):
-        if q[idx] == '-':
-            continue
+def create_db():
+    # cpp, java, python, - 4   4
+    # frontend, backend, - 3   12
+    # junior, senior, -    3   36
+    # chicken, pizza, -    3   108
+    # score
+    info_db = dict()
+    for lang in ['cpp', 'java', 'python', '-']:
+        info_db[lang] = dict()
+        for job in ['frontend', 'backend', '-']:
+            info_db[lang][job] = dict()
+            for career in ['junior', 'senior', '-']:
+                info_db[lang][job][career] = dict()
+                for food in ['chicken', 'pizza', '-']:
+                    info_db[lang][job][career][food] = []
 
-        if person_info[idx] != q[idx]:
-            return False
+    return info_db
 
-    if int(person_info[-1]) < int(q[-1]):
-        return False
+def insert_data(info_db, data):
+    # data = [lang, job, career, food, score]
 
-    return True
+    data[4] = int(data[4])
+    for lang in [data[0], '-']:
+        for job in [data[1], '-']:
+            for career in [data[2], '-']:
+                for food in [data[3], '-']:
+                    info_db[lang][job][career][food].append(data)
 
+def search_data(info_db, data):
+    lang, job, career, food, score = data
+    score = int(score)
+
+    result = info_db[lang][job][career][food]
+    result = list(filter(lambda x: x[4] >= score, result))
+
+    return len(result)
 
 def solution(info, query):
     answer = []
 
-    for q in query:
-        result = 0
-        q = list(filter(lambda x: x != 'and', q.split(' ')))
-        for person in info:
-            person_info = person.split(' ')
-            if is_passed(person_info, q):
-                result += 1
+    # 지원자 정보 테이블 생성
+    info_db = create_db()
 
-        answer += [result]
+    # 지원자 정보 테이블 삽입
+    for applicant_data in info:
+        applicant = applicant_data.split(' ')
+        insert_data(info_db, applicant)
+
+    for query_data in query:
+        data = list(filter(lambda x: x != 'and', query_data.split(' ')))
+        answer.append(search_data(info_db, data))
 
     return answer
 
