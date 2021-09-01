@@ -26,11 +26,11 @@ def insert_data(info_db, data):
                 for food in [data[3], '-']:
                     info_db[lang][job][career][food].append(data)
 
-    for lang in [data[0], '-']:
-        for job in [data[1], '-']:
-            for career in [data[2], '-']:
-                for food in [data[3], '-']:
-                    info_db[lang][job][career][food].sort(key=lambda x: x[4])
+    # for lang in [data[0], '-']:
+    #     for job in [data[1], '-']:
+    #         for career in [data[2], '-']:
+    #             for food in [data[3], '-']:
+    #                 info_db[lang][job][career][food].sort(key=lambda x: x[4])
 
 def search_data(info_db, data):
     result = 0
@@ -38,13 +38,13 @@ def search_data(info_db, data):
     lang, job, career, food, score = data
     score = int(score)
 
+    info_db[lang][job][career][food].sort(key=lambda x: x[4])
     search_data = info_db[lang][job][career][food]
     for i in range(len(search_data)):
         if search_data[i][4] >= score:
             result = len(search_data[i:])
             break
 
-    print('-------------------------')
     return result
 
 def solution(info, query):
