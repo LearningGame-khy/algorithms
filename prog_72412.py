@@ -16,16 +16,21 @@ def create_db():
 
     return info_db
 
+
 def insert_data(info_db, data):
     # data = [lang, job, career, food, score]
 
-    data[4] = int(data[4])
-    for lang in [data[0], '-']:
-        for job in [data[1], '-']:
-            for career in [data[2], '-']:
-                for food in [data[3], '-']:
-                    info_db[lang][job][career][food].append(data[4])
+    lang_range = [data[0], '-'] if data[0] != '-' else [data[0]]
+    job_range = [data[1], '-'] if data[1] != '-' else [data[1]]
+    career_range = [data[2], '-'] if data[2] != '-' else [data[2]]
+    food_range = [data[3], '-'] if data[3] != '-' else [data[3]]
 
+    data[4] = int(data[4])
+    for lang in lang_range:
+        for job in job_range:
+            for career in career_range:
+                for food in food_range:
+                    info_db[lang][job][career][food].append(data[4])
 
 
 def search_data(info_db, data):
@@ -33,13 +38,8 @@ def search_data(info_db, data):
 
     lang, job, career, food, score = data
     score = int(score)
-    #
+
     info_db[lang][job][career][food].sort()
-    # search_data = info_db[lang][job][career][food]
-    # for i in range(len(search_data)):
-    #     if search_data[i] >= score:
-    #         result = len(search_data[i:])
-    #         break
 
     from bisect import bisect_left
     search_index = bisect_left(info_db[lang][job][career][food], score)
