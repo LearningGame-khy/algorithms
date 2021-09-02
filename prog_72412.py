@@ -24,7 +24,7 @@ def insert_data(info_db, data):
         for job in [data[1], '-']:
             for career in [data[2], '-']:
                 for food in [data[3], '-']:
-                    info_db[lang][job][career][food].append(data)
+                    info_db[lang][job][career][food].append(data[4])
 
     # for lang in [data[0], '-']:
     #     for job in [data[1], '-']:
@@ -38,10 +38,10 @@ def search_data(info_db, data):
     lang, job, career, food, score = data
     score = int(score)
 
-    info_db[lang][job][career][food].sort(key=lambda x: x[4])
+    info_db[lang][job][career][food].sort()
     search_data = info_db[lang][job][career][food]
     for i in range(len(search_data)):
-        if search_data[i][4] >= score:
+        if search_data[i] >= score:
             result = len(search_data[i:])
             break
 
